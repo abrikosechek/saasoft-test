@@ -2,6 +2,7 @@
   <Button size="small">
     Click Me!
   </Button>
+  <Baba />
 </template>
 
 <script setup lang="ts">
