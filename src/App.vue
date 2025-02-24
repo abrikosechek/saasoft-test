@@ -2,22 +2,27 @@
   <div class="page">
     <div class="header">
       <h1 class="header__title">Учетные записи</h1>
-      <Button icon="pi pi-home" />
+      <Button icon="pi pi-plus-circle" variant="outlined"  />
     </div>
+    <Message severity="info" icon="pi pi-question-circle">
+      Для указания одной или нескольких меток используйте разделитель ;
+    </Message>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Button } from 'primevue';
+import { Button, Message } from 'primevue';
 </script>
 
 <style scoped lang="scss">
 .header {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 18px;
 
-  &__title {}
+  &__title {
+    font-weight: 400;
+  }
 }
 
 .page {
