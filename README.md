@@ -5,6 +5,7 @@ npm run dev
 
 
 # Architecture:
+
 /assets: static assets as images, styles.
 /components: .vue reusable components.
 
