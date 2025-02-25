@@ -8,20 +8,19 @@ const createMarkArray = (markString: string) => {
 
 export const useUsersStore = defineStore("users", {
   state: () => ({
-    users: [] as User[]
+    users: [] as User[],
+    usersLocalStorage: null as null | UserToSave[]
   }),
   actions: {
     get() {
-      const usersLocalStorageRaw = localStorage.getItem("users")
-      const usersLocalStorage = usersLocalStorageRaw && JSON.parse(usersLocalStorageRaw)
-
+      this.getUsersLocalStorage()
       // Create storage array if not created already
-      if (usersLocalStorage === null) {
+      if (this.usersLocalStorage === null) {
         localStorage.setItem("users", JSON.stringify([]))
         return
       }
 
-      this.users = usersLocalStorage.map((user: User) => ({
+      this.users = this.usersLocalStorage.map((user: User) => ({
         ...user,
         mark: user.mark && user.mark.map((i: { text: string }) => i.text).join(";")
       }))
@@ -35,20 +34,23 @@ export const useUsersStore = defineStore("users", {
         password: userInfo.password ? userInfo.password.trim() : null
       }
 
-      let usersLocalStorageRaw = localStorage.getItem("users")
-      let usersLocalStorage = usersLocalStorageRaw ? JSON.parse(usersLocalStorageRaw) : null
-      const userIndex = usersLocalStorage.findIndex((user: User) => user.id == userInfo.id)
+      const userIndex = this.usersLocalStorage.findIndex((user: User) => user.id == userInfo.id)
 
       // Change user if exists
       if (userIndex != -1) {
-        usersLocalStorage[userIndex] = objectToSave
+        this.usersLocalStorage[userIndex] = objectToSave
       }
       // Or create new user
       else {
-        usersLocalStorage.push(objectToSave)
+        this.usersLocalStorage.push(objectToSave)
       }
 
-      localStorage.setItem("users", JSON.stringify(usersLocalStorage))
+      localStorage.setItem("users", JSON.stringify(this.usersLocalStorage))
+      this.getUsersLocalStorage()
+    },
+    getUsersLocalStorage() {
+      const usersLocalStorageRaw = localStorage.getItem("users")
+      this.usersLocalStorage = usersLocalStorageRaw && JSON.parse(usersLocalStorageRaw)
     },
     addEmptyUser() {
       const usersAmount = this.users.length
@@ -64,8 +66,8 @@ export const useUsersStore = defineStore("users", {
     },
     delete(userId: number) {
       this.users = this.users.filter((user: User) => user.id != userId)
-      const usersLocalStorage = JSON.parse(localStorage.getItem("users") || "")
-      localStorage.setItem("users", JSON.stringify(usersLocalStorage.filter((user: User) => user.id != userId)))
+      localStorage.setItem("users", JSON.stringify(this.usersLocalStorage.filter((user: User) => user.id != userId)))
+      this.getUsersLocalStorage()
     }
   }
 })
