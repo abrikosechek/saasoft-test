@@ -8,7 +8,7 @@ export interface User {
 
 export interface UserToSave {
   id: number
-  mark: null | string
+  mark: null | { text: string }[]
   type: string
   login: string
   password: string | null

@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import type { User, UserToSave } from "@/shared/interfaces";
 
 const createMarkArray = (markString: string) => {
-  const result = markString.split(';').map(item => item.trim()).filter(item => item)
+  const result = markString.split(';').map(item => ({ text: item.trim() })).filter(item => item.text)
   return result.length > 0 ? result : null
 }
 
@@ -12,7 +12,8 @@ export const useUsersStore = defineStore("users", {
   }),
   actions: {
     get() {
-      const usersLocalStorage = JSON.parse(localStorage.getItem("users") || "")
+      const usersLocalStorageRaw = localStorage.getItem("users")
+      const usersLocalStorage = usersLocalStorageRaw && JSON.parse(usersLocalStorageRaw)
       console.log(usersLocalStorage)
 
       // Create storage array if not created already
@@ -23,13 +24,12 @@ export const useUsersStore = defineStore("users", {
 
       this.users = usersLocalStorage.map((user: User) => ({
         ...user,
-        id: Number(user.id),
-        mark: user.mark.join(";")
+        mark: user.mark && user.mark.map((i: { text: string }) => i.text).join(";")
       }))
     },
-    set(id: number, userInfo: UserToSave) {
+    set(userInfo: UserToSave) {
       const objectToSave: UserToSave = {
-        id: id,
+        id: userInfo.id,
         mark: userInfo.mark ? createMarkArray(userInfo.mark) : null,
         type: userInfo.type,
         login: userInfo.login.trim(),
@@ -38,8 +38,9 @@ export const useUsersStore = defineStore("users", {
 
       let usersLocalStorageRaw = localStorage.getItem("users")
       let usersLocalStorage = usersLocalStorageRaw ? JSON.parse(usersLocalStorageRaw) : null
-      const userIndex = usersLocalStorage.findIndex((user: User) => user.id === id)
+      const userIndex = usersLocalStorage.findIndex((user: User) => user.id == userInfo.id)
 
+      console.log(userInfo.id)
       console.log(userIndex)
 
       // Change user if exists

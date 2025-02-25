@@ -61,7 +61,7 @@ watch(stateType, (newValue) => {
 const submit = () => {
   if (v$.value.$invalid) return
 
-  usersStore.set(1, state)
+  usersStore.set(state)
 }
 </script>
 
