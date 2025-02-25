@@ -1,9 +1,9 @@
 <template>
-  <InputText v-model="state.mark" type="text" :invalid="v$.mark.$error" placeholder="Введите" maxlength="50"
+  <InputText v-model="state.mark" type="text" :invalid="v$.mark.$error" placeholder="Введите" maxlength="50" fluid
     @blur="submit" />
   <Select v-model="state.type" :options="noteTypesList" :invalid="v$.type.$error" placeholder="Выберите" />
 
-  <InputText v-model="state.login" :invalid="v$.login.$error" type="text" placeholder="Введите" maxlength="100"
+  <InputText v-model="state.login" :invalid="v$.login.$error" type="text" placeholder="Введите" maxlength="100" fluid
     :class="{ wide: !showPasswordField }" @blur="submit" />
   <Password v-if="showPasswordField" v-model="state.password" toggleMask fluid :invalid="v$.password.$error"
     placeholder="Введите" maxlength="100" @blur="submit" />
