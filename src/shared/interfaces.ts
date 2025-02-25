@@ -1,4 +1,5 @@
 export interface User {
+  id?: number
   mark: null | string
   type: string
   login: null | string
@@ -6,6 +7,7 @@ export interface User {
 }
 
 export interface UserToSave {
+  id: number
   mark: null | string
   type: string
   login: string

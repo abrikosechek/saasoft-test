@@ -5,28 +5,33 @@
 
   <InputText v-model="state.login" :invalid="v$.login.$error" type="text" placeholder="Введите" maxlength="100"
     :class="{ wide: !showPasswordField }" @blur="submit" />
-  <InputText v-if="showPasswordField" v-model="state.password" :invalid="v$.password.$error" placeholder="Введите"
-    maxlength="100" @blur="submit" />
+  <Password v-if="showPasswordField" v-model="state.password" toggleMask fluid :invalid="v$.password.$error"
+    placeholder="Введите" maxlength="100" @blur="submit" />
 
-  <Button icon="pi pi-trash" severity="danger" variant="text" />
+  <Button icon="pi pi-trash" severity="danger" variant="text" @click="usersStore.delete(id)" />
   <!-- <p>{{ v$.mark.$error }}</p> -->
 </template>
 
 <script setup lang='ts'>
 import { reactive, computed, watch } from 'vue';
+import { useUsersStore } from '@/store/users';
 import { noteTypesList } from '@/shared/consts';
-import type { User, UserToSave } from '@/shared/interfaces';
-import { InputText, Select, Button } from 'primevue';
+import type { User } from "@/shared/interfaces";
+import { InputText, Select, Button, Password } from 'primevue';
 import { useVuelidate } from '@vuelidate/core'
 import { required, maxLength } from '@vuelidate/validators'
 
+const usersStore = useUsersStore()
 
-const state = reactive<User>({
-  mark: null,
-  type: "Локальная",
-  login: null,
-  password: null,
-})
+const props = defineProps<{
+  id?: number
+  mark: null | string
+  type: string
+  login: null | string
+  password: null | string
+}>()
+
+const state = reactive<User>({ ...props })
 const rules = computed(() => {
   let rulesObject: any = {
     mark: { maxLength: maxLength(50) },
@@ -52,22 +57,11 @@ watch(stateType, (newValue) => {
   submit()
 })
 
-const createMarkArray = (markString: string) => {
-  const result = markString.split(';').map(item => item.trim()).filter(item => item)
-  return result.length > 0 ? result : null
-}
 
 const submit = () => {
   if (v$.value.$invalid) return
 
-  const objectToSave: UserToSave = {
-    mark: state.mark ? createMarkArray(state.mark) : null,
-    type: state.type,
-    login: state.login.trim(),
-    password: state.password ? state.password.trim() : null
-  }
-
-  console.log(objectToSave)
+  usersStore.set(1, state)
 }
 </script>
 

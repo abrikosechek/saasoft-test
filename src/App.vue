@@ -2,7 +2,7 @@
   <div class="page">
     <div class="header">
       <h1 class="header__title">Учетные записи</h1>
-      <Button icon="pi pi-plus-circle" variant="outlined" />
+      <Button icon="pi pi-plus-circle" variant="outlined" @click="usersStore.addEmptyUser()" />
     </div>
 
     <Message severity="info" icon="pi pi-question-circle">
@@ -35,15 +35,22 @@
       <div class="table__cell" />
 
       <!-- Table body -->
-       <TableItem />
-       <TableItem />
+      <TableItem v-for="user in usersStore.users" :key="user.id" v-bind="user" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { onMounted } from "vue"
+import { useUsersStore } from "@/store/users";
 import { Button, Message } from 'primevue';
 import TableItem from '@/components/TableItem.vue';
+
+const usersStore = useUsersStore()
+
+onMounted(() => {
+  usersStore.get()
+})
 </script>
 
 <style scoped lang="scss">
