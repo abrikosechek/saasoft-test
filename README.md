@@ -11,6 +11,8 @@ npm run dev
 
 /components: .vue reusable components.
 
+/shared: files with global variables and types
+
 
 The only page is App.vue file.
 
