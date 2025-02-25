@@ -14,7 +14,6 @@ export const useUsersStore = defineStore("users", {
     get() {
       const usersLocalStorageRaw = localStorage.getItem("users")
       const usersLocalStorage = usersLocalStorageRaw && JSON.parse(usersLocalStorageRaw)
-      console.log(usersLocalStorage)
 
       // Create storage array if not created already
       if (usersLocalStorage === null) {
@@ -40,23 +39,16 @@ export const useUsersStore = defineStore("users", {
       let usersLocalStorage = usersLocalStorageRaw ? JSON.parse(usersLocalStorageRaw) : null
       const userIndex = usersLocalStorage.findIndex((user: User) => user.id == userInfo.id)
 
-      console.log(userInfo.id)
-      console.log(userIndex)
-
       // Change user if exists
       if (userIndex != -1) {
-        console.log("changing user")
         usersLocalStorage[userIndex] = objectToSave
       }
       // Or create new user
       else {
-        console.log("adding new user")
         usersLocalStorage.push(objectToSave)
       }
 
       localStorage.setItem("users", JSON.stringify(usersLocalStorage))
-
-      console.log(userInfo)
     },
     addEmptyUser() {
       const usersAmount = this.users.length

@@ -9,7 +9,6 @@
     placeholder="Введите" maxlength="100" @blur="submit" />
 
   <Button icon="pi pi-trash" severity="danger" variant="text" @click="usersStore.delete(id)" />
-  <!-- <p>{{ v$.mark.$error }}</p> -->
 </template>
 
 <script setup lang='ts'>

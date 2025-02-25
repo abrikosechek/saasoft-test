@@ -37,7 +37,6 @@
       <!-- Table body -->
       <TableItem v-for="user in usersStore.users" :key="user.id" v-bind="user" />
     </div>
-    <p>{{ usersStore.users }}</p>
   </div>
 </template>
 
