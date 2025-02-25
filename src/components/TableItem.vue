@@ -15,20 +15,14 @@
 import { reactive, computed, watch } from 'vue';
 import { useUsersStore } from '@/store/users';
 import { noteTypesList } from '@/shared/consts';
-import type { User } from "@/shared/interfaces";
+import type { User } from "../shared/interfaces";
 import { InputText, Select, Button, Password } from 'primevue';
 import { useVuelidate } from '@vuelidate/core'
 import { required, maxLength } from '@vuelidate/validators'
 
 const usersStore = useUsersStore()
 
-const props = defineProps<{
-  id?: number
-  mark: null | string
-  type: string
-  login: null | string
-  password: null | string
-}>()
+const props = defineProps<User>()
 
 const state = reactive<User>({ ...props })
 const rules = computed(() => {
