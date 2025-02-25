@@ -1,42 +1,26 @@
 <template>
-  <InputText type="text" placeholder="Введите" />
-  <Select :options="noteTypesList" optionLabel="name" placeholder="Выберите" class="w-full md:w-56" />
+  <InputText v-model="state.mark" type="text" placeholder="Введите" />
+  <Select v-model="state.type" :options="noteTypesList" placeholder="Выберите" />
 
-  <template v-if="!wide">
-    <InputText type="text" placeholder="Введите" />
-    <InputText type="text" placeholder="Введите" />
-  </template>
-  <InputText v-else class="wide" type="text" placeholder="Введите" />
+  <InputText v-model="state.login" type="text" placeholder="Введите" :class="{ wide: !showPasswordField }" />
+  <InputText v-if="showPasswordField" v-model="state.mark" placeholder="Введите" />
 
   <Button icon="pi pi-trash" severity="danger" variant="text" />
 </template>
 
 <script setup lang='ts'>
+import { reactive, computed } from 'vue';
+import { noteTypesList } from '@/shared/consts';
 import { InputText, Select, Button } from 'primevue';
 
-interface Props {
-  wide?: boolean
-}
-
-withDefaults(defineProps<Props>(), {
-  wide: false
+const state = reactive({
+  mark: null,
+  type: "Локальная",
+  login: null,
+  password: null,
 })
 
-interface NoteTypes {
-  id: string | number
-  name: string
-};
-
-const noteTypesList: NoteTypes[] = [
-  {
-    name: "Локальная",
-    id: "local"
-  },
-  {
-    name: "LDAP",
-    id: "ldap"
-  },
-]
+const showPasswordField = computed(() => state.type == 'Локальная')
 </script>
 
 <style scoped lang='scss'>

@@ -36,7 +36,7 @@
 
       <!-- Table body -->
        <TableItem />
-       <TableItem wide />
+       <TableItem />
     </div>
   </div>
 </template>

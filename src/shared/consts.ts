@@ -1,0 +1,1 @@
+export const noteTypesList: string[] = ["Локальная", "LDAP",]
