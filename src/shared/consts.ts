@@ -1,1 +1,1 @@
-export const noteTypesList: string[] = ["Локальная", "LDAP",]
+export const noteTypesList: string[] = ["Локальная", "LDAP"]
