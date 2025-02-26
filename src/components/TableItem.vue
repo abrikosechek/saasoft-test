@@ -17,8 +17,25 @@ import { useUsersStore } from '@/store/users';
 import { noteTypesList } from '@/shared/consts';
 import type { User } from "../shared/interfaces";
 import { InputText, Select, Button, Password } from 'primevue';
-import { useVuelidate } from '@vuelidate/core'
+import { useVuelidate, type ValidationRuleWithoutParams, type ValidationRuleWithParams } from '@vuelidate/core'
 import { required, maxLength } from '@vuelidate/validators'
+
+interface Rules {
+  mark: {
+    maxLength: ValidationRuleWithParams<{ max: number }>
+  },
+  type: {
+    required: ValidationRuleWithoutParams,
+  },
+  login: {
+    required: ValidationRuleWithoutParams,
+    maxLength: ValidationRuleWithParams<{ max: number }>
+  },
+  password: {
+    required?: ValidationRuleWithoutParams,
+    maxLength: ValidationRuleWithParams<{ max: number }>
+  },
+}
 
 const usersStore = useUsersStore()
 
@@ -26,7 +43,7 @@ const props = defineProps<User>()
 
 const state = reactive<User>({ ...props })
 const rules = computed(() => {
-  let rulesObject: any = {
+  let rulesObject: Rules = {
     mark: { maxLength: maxLength(50) },
     type: { required },
     login: { required, maxLength: maxLength(100) },

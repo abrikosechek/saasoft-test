@@ -1,12 +1,12 @@
 export interface User {
-  id?: number
+  id: number
   mark: null | string
   type: string
-  login: null | string
+  login: string
   password: null | string
 }
 
-export interface UserToSave {
+export interface UserLocalStorage {
   id: number
   mark: null | { text: string }[]
   type: string

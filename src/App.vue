@@ -46,7 +46,7 @@ import { useUsersStore } from "@/store/users";
 import { Button, Message } from 'primevue';
 import TableItem from '@/components/TableItem.vue';
 
-const usersStore = useUsersStore()
+const usersStore = useUsersStore() 
 
 onMounted(() => {
   usersStore.get()
